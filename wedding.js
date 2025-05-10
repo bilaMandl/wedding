@@ -1,14 +1,13 @@
-const startDate = new Date('2025-04-20'); // כ"ב ניסן
+const startDate = new Date('2025-05-11'); // כ"ב ניסן
 const endDate = new Date('2025-08-19');   // כ"ה אב
 const emojis = ['😴', '😑', '😐', '🤨', '😏', '🙂', '😊', '😇', '🤗', '😝', '😃', '😄', '😁', '🤩', '🔥'];
 const today = new Date();
 let confettiTriggered = false;
 
+let currentPlaceholder = null; // משתנה גלובלי
 
 const hebrewDates = [
-  'כ"ב ניסן', 'כ"ג ניסן', 'כ"ד ניסן', 'כ"ה ניסן', 'כ"ו ניסן', 'כ"ז ניסן', 'כ"ח ניסן', 'כ"ט ניסן','ל\' ניסן',
-  'א\' אייר', 'ב\' אייר', 'ג\' אייר', 'ד\' אייר', 'ה\' אייר', 'ו\' אייר', 'ז\' אייר', 'ח\' אייר', 'ט\' אייר', 'י\' אייר',
-  'י"א אייר', 'י"ב אייר', 'י"ג אייר', 'י"ד אייר', 'ט"ו אייר', 'ט"ז אייר', 'י"ז אייר', 'י"ח אייר', 'י"ט אייר', 'כ\' אייר',
+   'י"ג אייר', 'י"ד אייר', 'ט"ו אייר', 'ט"ז אייר', 'י"ז אייר', 'י"ח אייר', 'י"ט אייר', 'כ\' אייר',
   'כ"א אייר', 'כ"ב אייר', 'כ"ג אייר', 'כ"ד אייר', 'כ"ה אייר', 'כ"ו אייר', 'כ"ז אייר', 'כ"ח אייר', 'כ"ט אייר',
   'א\' סיון', 'ב\' סיון', 'ג\' סיון', 'ד\' סיון', 'ה\' סיון', 'ו\' סיון', 'ז\' סיון', 'ח\' סיון', 'ט\' סיון', 'י\' סיון',
   'י"א סיון', 'י"ב סיון', 'י"ג סיון', 'י"ד סיון', 'ט"ו סיון', 'ט"ז סיון', 'י"ז סיון', 'י"ח סיון', 'י"ט סיון', 'כ\' סיון',
@@ -101,6 +100,11 @@ for (let d = new Date(startDate), i = 0; d <= endDate; d.setDate(d.getDate() + 1
   }
   
   box.addEventListener('click', () => {
+    if(!isPast && !isToday){
+      alert('סבלנות... היום הזה עוד לא הגיע!');
+return
+    }
+
       const openBox = document.querySelector('.day-box.open');
       if (openBox && openBox !== box) {
         openBox.classList.remove('open');
@@ -119,10 +123,35 @@ for (let d = new Date(startDate), i = 0; d <= endDate; d.setDate(d.getDate() + 1
         // הכנס את המשפט לגב הריבוע
         back.innerHTML = `
           <div style="padding: 10px;">
+              <button id="close-btn" style="position: absolute; top: 5px; left: 5px; background: transparent; border: none; font-size: 1.2em; cursor: pointer;">✖</button>
             <h3 style="margin-bottom: 0.5em;">${getHebrewDate(i)}</h3>
             <p style="font-size: 1em;">${messages[i] || "אין משפט מוגדר"}</p>
           </div>
         `;
+        setTimeout(() => {
+          const closeBtn = box.querySelector('#close-btn');
+          closeBtn?.addEventListener('click', (e) => {
+            e.stopPropagation(); // כדי למנוע פתיחה/סגירה חוזרת
+            box.classList.remove('active', 'flip', 'open');
+            if (currentPlaceholder) {
+              currentPlaceholder.remove();
+              currentPlaceholder = null;
+            }
+          });
+        }, 0);
+        if (currentPlaceholder) {
+          currentPlaceholder.remove();
+          currentPlaceholder = null;
+        }
+        const placeholder = document.createElement('div');
+placeholder.className = 'day-boxplaceholder';
+placeholder.style.width = `${box.offsetWidth}px`;
+placeholder.style.height = `${box.offsetHeight}px`;
+currentPlaceholder = placeholder;
+
+box.parentNode.insertBefore(placeholder, box);
+
+
         box.classList.add('flip', 'active');
         confetti({
           particleCount: 80,
@@ -131,6 +160,7 @@ for (let d = new Date(startDate), i = 0; d <= endDate; d.setDate(d.getDate() + 1
         });      }
     } else {
       alert('סבלנות... היום הזה עוד לא הגיע!');
+      return
     }
   });
   calendar.appendChild(box);
