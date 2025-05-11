@@ -154,7 +154,9 @@ background-color: gold;}
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
   }
   
-
+#coffeeImg{
+  width: 50px;
+}
   .day-box.open {
     position: fixed;
     top: 50%;
