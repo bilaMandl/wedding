@@ -82,22 +82,7 @@ for (let d = new Date(startDate), i = 0; d <= endDate; d.setDate(d.getDate() + 1
   inner.appendChild(back);
   box.appendChild(inner);
 
-  function showPopup(i) {
-    const popup = document.getElementById('popup');
-    const content = document.getElementById('popup-content');
-    content.innerHTML = `
-      <h2>${getHebrewDate(i)}</h2>
-      <p>${messages[i] || "אין משפט מוגדר"}</p>
-    `;
-    popup.classList.remove('hidden');
-    setTimeout(() => popup.classList.add('show'), 10);
-  }
   
-  function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.remove('show');
-    setTimeout(() => popup.classList.add('hidden'), 300);
-  }
   
   box.addEventListener('click', () => {
     if(!isPast && !isToday){
@@ -154,14 +139,11 @@ box.parentNode.insertBefore(placeholder, box);
 
         box.classList.add('flip', 'active');
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 380,
+          spread: 100,
           origin: { y: 0.6 }
         });      }
-    } else {
-      alert('סבלנות... היום הזה עוד לא הגיע!');
-      return
-    }
+}
   });
   calendar.appendChild(box);
 }

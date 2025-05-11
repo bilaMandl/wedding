@@ -94,7 +94,9 @@ body {
     align-items: center;
     justify-content: center;
 }
-
+.today .left-half, .today .front{
+  background-color: #ebcf44;
+}
 .right-half {
     flex: 1;
     background: #f8f9fa;
@@ -137,54 +139,13 @@ body {
     background: #ffe4e1;
     box-shadow: 0 0 10px #f00 inset;
 }
+.today .inner{
+background-color: gold;}
 
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.2);
-    z-index: 9999;
-    max-width: 700px;
-    width: 80%;
-    transition: all 0.3s ease;
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .popup.show {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
-  .popup h2 {
-    margin-top: 0;
-    font-size: 1.5em;
-  }
-  
-  .popup button {
-    margin-top: 20px;
-    padding: 8px 16px;
-    background: #f07c7c;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .popup button:hover {
-    background: #f07c7c;
-  }
-  
   
   .day-box.active {
     position: relative;
-    z-index: 1000;
+    /* z-index: 1000; */
     transform: scale(1.8);
     transition: transform 0.4s ease;
   }
@@ -193,17 +154,14 @@ body {
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
   }
   
-  .popup {
-    display: none !important; /* מחביאים את הפופאפ הישן */
-  }
-  
+
   .day-box.open {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(3.5) rotateY(0deg);
     font-size: 30%;
-    z-index: 1000;  
+    z-index: 3;  
     width: 150px;
     height: 100px;
   }
@@ -212,4 +170,14 @@ body {
   
 .placeholder {
     visibility: hidden;
+  }
+
+  canvas.confetti-canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none;
+    z-index: 9999999 ;
   }
